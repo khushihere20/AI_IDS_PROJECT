@@ -1,0 +1,26 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual env
+venv/
+.env
+
+# Pytest
+.pytest_cache/
+.cache/
+nodeids
+CACHEDIR.TAG
+
+# Uploads & DB
+uploads/
+users.db
+
+# ML models (generated files)
+model/
+*.pkl
+*.joblib
+
+# OS
+.DS_Store
+Thumbs.db

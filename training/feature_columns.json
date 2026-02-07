@@ -1,0 +1,15 @@
+{
+    "features": [
+        "duration",
+        "protocol_type",
+        "service",
+        "flag",
+        "src_bytes",
+        "dst_bytes"
+    ],
+    "labels": [
+        "dos",
+        "normal",
+        "probe"
+    ]
+}

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Register | Enterprise AI IDS</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #141e30, #243b55);
+        }
+        .card {
+            width: 400px;
+            border-radius: 12px;
+        }
+        .strength {
+            font-size: 13px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body class="d-flex align-items-center justify-content-center vh-100">
+
+<div class="card shadow-lg">
+    <div class="card-body p-4">
+
+        <h4 class="text-center mb-3">🛡 Create Enterprise Account</h4>
+
+        {% if error %}
+        <div class="alert alert-danger text-center">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST" onsubmit="return validatePassword()">
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Username</label>
+                <input type="text" name="username" class="form-control" required>
+            </div>
+
+            <div class="mb-2">
+                <label class="form-label fw-semibold">Password</label>
+                <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    class="form-control"
+                    onkeyup="checkStrength()"
+                    required
+                >
+            </div>
+
+            <!-- PASSWORD STRENGTH -->
+            <div id="strengthMsg" class="strength text-danger mb-3">
+                Password must be strong
+            </div>
+
+            <button id="submitBtn" class="btn btn-primary w-100" disabled>
+                Register Securely
+            </button>
+        </form>
+
+        <div class="text-center mt-3 small">
+            Already registered?
+            <a href="/login">Login</a>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function checkStrength() {
+    const pwd = document.getElementById("password").value;
+    const msg = document.getElementById("strengthMsg");
+    const btn = document.getElementById("submitBtn");
+
+    const strong =
+        pwd.length >= 8 &&
+        /[A-Z]/.test(pwd) &&
+        /[a-z]/.test(pwd) &&
+        /[0-9]/.test(pwd) &&
+        /[^A-Za-z0-9]/.test(pwd);
+
+    if (strong) {
+        msg.innerHTML = "✔ Strong password";
+        msg.className = "strength text-success";
+        btn.disabled = false;
+    } else {
+        msg.innerHTML = "✖ Weak password (8 chars, upper, lower, number, symbol)";
+        msg.className = "strength text-danger";
+        btn.disabled = true;
+    }
+}
+
+function validatePassword() {
+    return !document.getElementById("submitBtn").disabled;
+}
+</script>
+
+</body>
+</html>

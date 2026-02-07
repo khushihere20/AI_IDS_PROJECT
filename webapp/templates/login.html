@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login | Enterprise AI IDS</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        }
+        .login-card {
+            width: 380px;
+            border-radius: 12px;
+        }
+        .brand {
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .sub-text {
+            font-size: 13px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+
+<body class="d-flex align-items-center justify-content-center vh-100">
+
+<div class="card shadow-lg login-card">
+    <div class="card-body p-4">
+
+        <!-- BRAND -->
+        <div class="text-center mb-3">
+            <h4 class="brand">🛡 Enterprise AI IDS</h4>
+            <div class="sub-text">Security Operations Center Access</div>
+        </div>
+
+        <!-- LOGIN RISK BADGE -->
+        <div class="text-center mb-3">
+            {% if risk == "High" %}
+                <span class="badge bg-danger">High Login Risk</span>
+            {% elif risk == "Medium" %}
+                <span class="badge bg-warning text-dark">Medium Login Risk</span>
+            {% else %}
+                <span class="badge bg-success">Low Login Risk</span>
+            {% endif %}
+        </div>
+
+        <!-- FAILED ATTEMPTS WARNING -->
+        {% if attempts is defined and attempts >= 3 %}
+        <div class="alert alert-danger text-center py-2">
+            🚨 Multiple failed login attempts detected
+        </div>
+        {% endif %}
+
+        <!-- ERROR MESSAGE -->
+        {% if error %}
+        <div class="alert alert-danger text-center py-2">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <!-- LOGIN FORM -->
+        <form method="POST" action="{{ url_for('login') }}">
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Username</label>
+                <input
+                    type="text"
+                    name="username"
+                    class="form-control"
+                    required
+                    autocomplete="username"
+                >
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Password</label>
+                <input
+                    type="password"
+                    name="password"
+                    class="form-control"
+                    required
+                    autocomplete="current-password"
+                >
+            </div>
+
+            <!-- CAPTCHA -->
+            {% if show_captcha %}
+            <div class="mb-3">
+                <label class="form-label fw-semibold">
+                    🧠 CAPTCHA: Solve {{ captcha_question }}
+                </label>
+                <input
+                    type="text"
+                    name="captcha"
+                    class="form-control"
+                    placeholder="Enter answer"
+                    autocomplete="off"
+                    required
+                >
+            </div>
+            {% endif %}
+
+            <!-- REMEMBER ME -->
+            <div class="form-check mb-3">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="remember"
+                    id="remember"
+                >
+                <label class="form-check-label small" for="remember">
+                    Remember me on this device
+                </label>
+            </div>
+
+            <button class="btn btn-primary w-100 fw-semibold">
+                Login to Dashboard
+            </button>
+        </form>
+
+        <hr class="my-4">
+
+        <!-- REGISTER -->
+        <div class="text-center">
+            <span class="text-muted small">New enterprise user?</span><br>
+            <a href="{{ url_for('register') }}" class="btn btn-outline-secondary btn-sm mt-2">
+                Create Account
+            </a>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
